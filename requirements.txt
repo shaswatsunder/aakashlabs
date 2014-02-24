@@ -1,6 +1,11 @@
 Django==1.5.4
+Geraldo==0.4.17
 MySQL-python==1.2.4
 PIL==1.1.7
 South==0.8.4
 argparse==1.2.1
+google-api-python-client==1.2
+httplib2==0.8
+python-gflags==2.0
+reportlab==2.7
 wsgiref==0.1.2

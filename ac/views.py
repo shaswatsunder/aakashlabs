@@ -24,6 +24,9 @@ from get_list import get_ac_id_list, get_ac_city_list
 from get_list import get_ac_name_list, get_ac_state_list
 from get_list import get_project_list
 
+# Google Analytics API
+from stats.test import test_function
+
 
 def index(request):
     """Index page.
@@ -32,6 +35,7 @@ def index(request):
     - `Request`:
     """
     context = RequestContext(request)
+    print test_function
     return render_to_response('index.html', context)
 
 
