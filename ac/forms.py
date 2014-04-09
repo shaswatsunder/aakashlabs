@@ -68,14 +68,29 @@ class CoordinatorForm(forms.ModelForm):
             attrs={'class': 'form-control',
                    'placeholder': 'Coordinator contact number*.'}),
         help_text="", required=True)
-    picture = forms.ImageField(label='Profile picture',
+    picture = forms.ImageField(
+        label='Profile picture',
+        help_text = 'Upload profile picture.',
         widget = forms.FileInput(
             attrs={'placeholder': 'Coordinator picture.'}),
+        # Placeholder is not required in Image and File field
+        required=False)
+    undertaking = forms.FileField(
+        label='Undertaking',
+        help_text = 'Upload Undertaking document.',
+        widget = forms.FileInput(
+            attrs={'placeholder': 'Upload Undertaking document.'}),
+        required=False)
+    nomination = forms.FileField(
+        label='Nomination',
+        help_text = 'Upload Nomination document.',
+        widget = forms.FileInput(
+            attrs={'placeholder': 'Upload Nomination document.'}),
         required=False)
     
     class Meta:
         model = Coordinator
-        fields = ['contact', 'picture']
+        fields = ['contact', 'picture', 'undertaking', 'nomination']
     
 
 class UserForm(forms.ModelForm):

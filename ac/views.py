@@ -644,8 +644,15 @@ def register(request):
 
             coordinator = coordinatorform.save(commit=False)
             print coordinator.contact
+            # FIXME: Save all attached file in one go. See
+            # 'project_add' function
             if 'picture' in request.FILES:
                 coordinator.picture = request.FILES['picture']
+            if 'undertaking' in request.FILES:
+                coordinator.undertaking = request.FILES['undertaking']
+            if 'nomination' in request.FILES:
+                coordinator.nomination = request.FILES['nomination']
+
             coordinator.user = User.objects.get(username=user.username)
             coordinator.save()
             
@@ -661,7 +668,7 @@ Details:
 Name: """ + aakashcentre.name + """
 City: """ + aakashcentre.city + """
 State: """ + aakashcentre.state + """
-Coordinator's Name: """ + coordinator.name.first_name + coordinator.name.last_name + """
+Coordinator's Name: """ + coordinator.user.first_name + coordinator.user.last_name + """
 
 Waiting for you approval"""
             send_mail(email_subject, email_message,

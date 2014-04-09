@@ -10,6 +10,8 @@ class Coordinator(models.Model):
     # Addition info
     contact = models.CharField(max_length=12, blank=True)
     picture = models.ImageField(upload_to='profile_image', blank=True)
+    undertaking = models.FileField(upload_to='undertaking', blank=True)
+    nomination = models.FileField(upload_to='nomination', blank=True)
 
     def __unicode__(self):
         return self.user.username
