@@ -735,7 +735,7 @@ def user_logout(request):
     """
     context = RequestContext(request)
     logout(request)
-    return HttpResponseRedirect('/')    
+    return HttpResponseRedirect('/login/')
     
 
 @login_required
