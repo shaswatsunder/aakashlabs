@@ -18,7 +18,7 @@ class AcAdmin(admin.ModelAdmin):
 
 class CoordinatorAdmin(admin.ModelAdmin):
     """Coordinator page."""
-    list_display = ('user', 'contact')
+    list_display = ('user', 'contact', 'undertaking', 'nomination')
     search_fields = ('user__username',) # user__fieldname, else it
                                         # throws error: Related Field
                                         # has invalid lookup:
