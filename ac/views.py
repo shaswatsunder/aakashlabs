@@ -717,7 +717,8 @@ def user_login(request):
                 return HttpResponseRedirect('/user/profile/')
             else:
                 # An inactive account was used - no logging in!
-                messages.info(request, "Your account is disabled.")
+                messages.error(request, "Your account is disabled.")
+                return HttpResponseRedirect('/login/')
         else:
             # Bad login details were provided. So we can't log the user in.
             messages.error(request, "Bad login!")
