@@ -19,6 +19,9 @@
 
   {% if user.is_staff %}
   <p><a href="/ac/register/">Register an Aakash Center</a></p>
+  {% if user.is_superuser %}
+  <p><a class="text-warning" href="/admin/">Django Admin Interface</a></p>
+  {% endif %}
   {% endif %}
   <p><a href="/ac/project/add/">Add new project</a></p>
   <p><a class="text-danger" href="/user/password/change/">
