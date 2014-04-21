@@ -1,6 +1,6 @@
 import os
 import sys
-import store
+#import store
 import coordinators_list
 import ac_list
 import project_list

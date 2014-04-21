@@ -13,13 +13,12 @@
          git clone https://github.com/psachin/aakashlabs.git
        #+END_SRC sh
 
-** Usage
+** Dependencies
    
    - Install dependency using =virtualenv=. To know more about
      virtualenv visit [[http://www.virtualenv.org/en/latest/][this]] link.
      #+BEGIN_SRC sh
        pip install -r requirements.txt
-
      #+END_SRC sh
      or
      #+BEGIN_SRC sh
@@ -27,12 +26,8 @@
      #+END_SRC sh
      should also work instead of `pip`.
 
-*** Deploy
-**** Using Apache and mod_wsgi
-
-     - Install Apache WSGI module =mod_wsgi=
-     - Configure Apache(TODO)
-     - Configure Django WSGI(TODO)
+     If none of these work, install package manually listed in
+     requirement.txt file
 
      - Install dependencies
        (for MySQL)
@@ -47,8 +42,14 @@
        #+BEGIN_SRC sh
          sudo apt-get install python-dev
          sudo apt-get install libmysqlclient-dev
+         sudo apt-get install libapache2-mod-wsgi
        #+END_SRC sh
+     
+*** Deploy
+**** Using Apache and mod_wsgi
 
+     - Configure Apache(TODO)
+     - Configure Django WSGI(TODO)
      - Collect all static files.
 
      #+BEGIN_SRC sh
@@ -65,25 +66,27 @@
 
 *** Populate database
 
-     - =populate_al.py= will create an Admin user and populates the
-       database.
+    - If you are using MySQL, create and grant access to database.
 
-     - And run the script
-       #+BEGIN_SRC sh 
-         python populate_al.py
-       #+END_SRC sh
-       It will prompt for admin password.
+    - =populate_al.py= will create an Admin user and populates the
+      database.
 
-       Alternately you can run
-       #+BEGIN_SRC sh
-         python manage.py syncdb
-       #+END_SRC sh
-       and insert data using the 'admin' interface.
+    - And run the script
+      #+BEGIN_SRC sh 
+        python populate_al.py
+      #+END_SRC sh
+      It will prompt for admin password.
 
-     - Finally run development server
-       #+BEGIN_SRC sh
-         python manage.py runserver
-       #+END_SRC sh
+      Alternately you can run
+      #+BEGIN_SRC sh
+        python manage.py syncdb
+      #+END_SRC sh
+      and insert data using the 'admin' interface.
+
+    - Finally run development server
+      #+BEGIN_SRC sh
+        python manage.py runserver
+      #+END_SRC sh
 
 *** Other files
 
