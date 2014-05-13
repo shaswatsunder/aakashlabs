@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block body_block %}
+<div class="container  footer_padding" style="padding-top:2.5cm;">
+
+  <h2>{{post.title}}</h2>  
+
+  <div class="post_body">
+    {{ post.body|safe|linebreaks }}
+  </div>
+  <div class="post_meta">
+    by {{post.creator}} | {{ post.created }}
+  </div>
+
+  <hr>
+  
+  {% for reply in replies %}
+  <div class="post_body">
+    {{ reply.body|safe|linebreaks }}
+  </div>
+
+  <div class="post_meta">
+    by {{reply.creator}} | {{ reply.created }}
+  </div>
+  {% endfor %}
+
+</div> <!-- container -->
+{% endblock %}

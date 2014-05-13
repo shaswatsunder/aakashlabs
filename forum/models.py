@@ -1,0 +1,109 @@
+from django.db.models import *
+from django.contrib.auth.models import User
+from django.contrib import admin
+from django.db.models.signals import post_save
+from taggit.managers import TaggableManager
+from shared.utils import *
+
+class UserProfile(Model):
+    avatar = ImageField("Profile Pic", upload_to="avatar", blank=True, null=True)
+    posts = IntegerField(default=0)
+    replies = IntegerField(default=0)
+    user = OneToOneField(User, related_name="profile")
+
+    def __unicode__(self):
+        return self.user.username
+
+    def increment_posts(self):
+        self.posts += 1
+        self.save()
+
+    def increment_replies(self):
+        self.replies += 1
+        self.save()        
+
+class Category(Model):
+    title = CharField(max_length=60)
+    description = TextField(max_length=500)
+
+    def __unicode__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse2("forum", dpk=self.pk)
+
+
+'''
+class Thread(Model):
+    title   = CharField(max_length=60)
+    created = DateTimeField(auto_now_add=True)
+    creator = ForeignKey(User, blank=True, null=True)
+    forum   = ForeignKey(Forum, related_name="threads")
+
+    class Meta:
+        ordering = ["-created"]
+
+    def __unicode__(self):
+        return unicode("%s - %s(title)" % (self.title, self.forum))
+
+    def get_absolute_url(self) : return reverse2("thread", dpk=self.pk)
+    def last_post(self)        : return first(self.posts.all())
+    def num_posts(self)        : return self.posts.count()
+    def num_replies(self)      : return self.posts.count() - 1        
+'''        
+
+class Post(Model):
+    title = CharField(max_length=60)
+    created = DateTimeField(auto_now_add=True)
+    creator = ForeignKey(User, blank=True, null=True)
+    body = TextField(max_length=10000)
+    category = ForeignKey(Category, related_name="posts")
+    tags = TaggableManager()
+    vote = IntegerField(default=0)
+    
+    
+    class Meta:
+        ordering = ["created"]
+
+    def __unicode__(self):
+        return u"%s" % (self.title)
+
+    def increment_vote(self):
+        self.vote += 1
+        self.save()                
+
+    def short(self):
+        created = self.created.strftime("%b %d, %I:%M %p")
+        return u"%s - %s\n%s" % (self.creator, self.title, created)
+
+    def profile_data(self):
+        p = self.created.profile
+        return p.posts, p.avatar
+
+
+        
+class Reply(Model):
+    title = ForeignKey(Post, related_name="post")
+    created = DateTimeField(auto_now_add=True)
+    creator = ForeignKey(User, blank=True, null=True)
+    body = TextField(max_length=10000)
+    vote = IntegerField(default=0)
+
+
+    class Meta:
+        ordering = ["created"]
+
+    def __unicode__(self):
+        return u"%s" % (self.title)
+
+    def increment_vote(self):
+        self.vote += 1
+        self.save()                
+
+    def short(self):
+        created = self.created.strftime("%b %d, %I:%M %p")
+        return u"%s - %s\n%s" % (self.creator, self.title, created)
+
+    def profile_data(self):
+        p = self.created.profile
+        return p.posts, p.avatar

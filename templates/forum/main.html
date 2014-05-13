@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block body_block %}
+<div class="container" style="padding-top:2.5cm;">
+
+  <table border="0" cellpadding="4" width="100%">
+    <tr>
+      <td>Title</td>
+    </tr>
+
+    <!-- List of forums -->
+
+    {% for category in categories %}
+    <tr>
+      <td><a href="/forum/{{category.pk}}">{{category.title}}</a> </td>
+    </tr>
+    {% endfor %}
+    </table>
+</div>
+
+
+{% endblock %}

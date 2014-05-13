@@ -6,7 +6,8 @@ from django.views.generic import TemplateView
 from django.contrib import admin
 admin.autodiscover()
 
-urlpatterns = patterns('',
+urlpatterns = patterns(
+    '',
     # Examples:
     url(r'^$', 'ac.views.index', name='index'),
     url(r'^about/$', 'ac.views.about', name='about'),
@@ -24,8 +25,6 @@ urlpatterns = patterns('',
     url(r'^user/profile/$', 'ac.views.user_profile', name='profile'),
     url(r'^user/profile/edit/$', 'ac.views.user_profile_edit',
         name='profile_edit'),
-    url(r'^ac/', include('ac.urls')),                       
-    # url(r'^aakashlabs/', include('aakashlabs.foo.urls')),
     url(r'^login/$', 'ac.views.user_login', name='login'),
     url(r'^logout/$', 'ac.views.user_logout', name='logout'),
 	
@@ -48,6 +47,9 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
+    # redirect urls
+    url(r'^ac/', include('ac.urls')),
+    url(r'^forum/', include('forum.urls')),    
     # Finally add robot.txt
     url(r'^robots\.txt$', TemplateView.as_view(template_name='robot.txt')),
 )
