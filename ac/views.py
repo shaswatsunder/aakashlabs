@@ -18,6 +18,7 @@ from ac.forms import ContactForm, AakashCentreForm
 from ac.forms import CoordinatorForm, UserForm
 from ac.forms import ProjectForm, Agreement
 from ac.forms import MemberForm, MentorForm
+from ac.forms import AakashCentreRegistration
 
 # Local libs
 from get_list import get_ac_id_list, get_ac_city_list
@@ -815,3 +816,29 @@ def user_profile_edit(request):
     context_dict = {'coordinatorform': coordinatorform,
                     'userform': userform}
     return render_to_response('profile_edit.html', context_dict, context)
+
+
+def aakash_centre_registration_form(request):
+    """New Aakash centre  registration.
+
+    Arguments:
+    - `request`:
+    """
+    context = RequestContext(request)
+
+    if request.method == 'POST':
+        print "We'hv got a new registration for Aakash centre."
+        ac_registration_form = AakashCentreRegistration(request.POST)
+
+        if ac_registration_form.is_valid():
+            print "AC registration form is valid"
+        elif ac_registration_form.errors:
+            print ac_registration_form.errors
+    else:
+        ac_registration_form = AakashCentreRegistration()
+
+    context_dict = {
+        'ac_registration_form': ac_registration_form,
+    }
+
+    return render_to_response('ac/ac_register.html', context_dict, context)

@@ -14,7 +14,7 @@ class ContactForm(forms.ModelForm):
                                       'placeholder': 'Your name*.'}),
         help_text="Enter your name.", required=True)
     email = forms.EmailField(
-        widget=forms.TextInput(attrs={'class':'form-control',
+        widget=forms.TextInput(attrs={'class': 'form-control',
                                   'placeholder': 'Enter valid email*.'}),
         help_text="Enter Email.", required=True)
     message = forms.CharField(
@@ -283,3 +283,90 @@ class Agreement(forms.Form):
         under GNU GPL v3 or later",
         required=True,
         error_messages={'required': 'You must agree to terms and conditions.'},)
+
+
+class AakashCentreRegistration(forms.Form):
+    """New Aakash centre registration form.
+    """
+    coordinator_name = forms.CharField(
+        label='Coordinator name',
+        widget=forms.TextInput(
+        attrs={'class': 'form-control',
+                   'placeholder': 'Coordintor name*.'}),
+        help_text="Coordintor name",
+        required=True,
+        error_messages={'required':'Coordinator name is required.'})
+
+    designation = forms.CharField(
+        label='Designation',
+        widget=forms.TextInput(
+        attrs={'class': 'form-control',
+                   'placeholder': 'Your designation in your institute*.'}),
+        help_text="Designation",
+        required=True,
+        error_messages={'required':'Designation is required.'})
+
+    department = forms.CharField(
+        label='Department',
+        widget=forms.TextInput(
+        attrs={'class': 'form-control',
+                   'placeholder': 'Which department you belong to?.'}),
+        help_text="Designation",
+        required=True,
+        error_messages={'required':'Department is required.'})
+
+    years_of_experience = forms.IntegerField(
+        label='Experience(in years)',
+        widget=forms.TextInput(
+        attrs={'class': 'form-control',
+               'placeholder': 'Total years of experience?.'}),
+        help_text="Experience in years",
+        required=True,
+        error_messages={'required':'Experience is required.'})
+
+    appointed_on = forms.DateField(
+        label='Appointed as an Aakash Coordinator on',
+        widget=forms.DateInput(),
+        help_text="Date",
+        required=True,
+        error_messages={'required':'Date is required.'})
+
+    email = forms.EmailField(
+        widget= forms.TextInput(
+        attrs={'class': 'form-control',
+                   'placeholder': 'New Coordinator\'s valid email*.'}),
+        help_text="Email",
+        required=True,
+        error_messages={'required':'Valid Email address is required.'})
+
+    alt_email = forms.EmailField(
+        widget= forms.TextInput(
+        attrs={'class': 'form-control',
+                   'placeholder': 'New Coordinator\'s valid email*.'}),
+        help_text="Alternate Email",
+        required=False,
+        error_messages={'invalid':'Valid Email address is required.'})
+
+    mobile = forms.IntegerField(
+        widget= forms.TextInput(
+        attrs={'class': 'form-control',
+                  'placeholder': 'New Coordinator\'s mobile number*.'}),
+        help_text="Mobile number",
+        required=False,
+        error_messages={'invalid':'Enter valid mobile number.'})
+
+    office_phone = forms.IntegerField(
+        widget= forms.TextInput(
+        attrs={'class': 'form-control',
+                   'placeholder': 'Office phone number.'}),
+        help_text="Office phone number",
+        required=False,
+        error_messages={'invalid':'Enter valid phone number.'})
+
+    std_code = forms.IntegerField(
+        widget= forms.TextInput(
+        attrs={'class': 'form-control',
+                   'placeholder': 'STD code.'}),
+        help_text="STD code",
+        required=False,
+        error_messages={'invalid':'Enter valid STD code.'})
