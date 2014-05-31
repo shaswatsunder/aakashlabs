@@ -20,7 +20,7 @@ class UserProfile(Model):
 
     def increment_replies(self):
         self.replies += 1
-        self.save()        
+        self.save()
 
 class Category(Model):
     title = CharField(max_length=60)
@@ -33,30 +33,11 @@ class Category(Model):
         return reverse2("forum", dpk=self.pk)
 
 
-'''
-class Thread(Model):
-    title   = CharField(max_length=60)
-    created = DateTimeField(auto_now_add=True)
-    creator = ForeignKey(User, blank=True, null=True)
-    forum   = ForeignKey(Forum, related_name="threads")
-
-    class Meta:
-        ordering = ["-created"]
-
-    def __unicode__(self):
-        return unicode("%s - %s(title)" % (self.title, self.forum))
-
-    def get_absolute_url(self) : return reverse2("thread", dpk=self.pk)
-    def last_post(self)        : return first(self.posts.all())
-    def num_posts(self)        : return self.posts.count()
-    def num_replies(self)      : return self.posts.count() - 1        
-'''        
-
 class Post(Model):
     title = CharField(max_length=60)
     created = DateTimeField(auto_now_add=True)
     creator = ForeignKey(User, blank=True, null=True)
-    body = TextField(max_length=10000)
+    body = TextField()
     category = ForeignKey(Category, related_name="posts")
     tags = TaggableManager()
     vote = IntegerField(default=0)
@@ -81,12 +62,11 @@ class Post(Model):
         return p.posts, p.avatar
 
 
-        
 class Reply(Model):
     title = ForeignKey(Post, related_name="post")
     created = DateTimeField(auto_now_add=True)
     creator = ForeignKey(User, blank=True, null=True)
-    body = TextField(max_length=10000)
+    body = TextField()
     vote = IntegerField(default=0)
 
 
@@ -107,3 +87,18 @@ class Reply(Model):
     def profile_data(self):
         p = self.created.profile
         return p.posts, p.avatar
+
+
+class Comment(Model):
+    comment = ForeignKey(Reply)
+    body = TextField()
+    created = DateTimeField(auto_now_add=True)
+    creator = ForeignKey(User, blank=True, null=True)
+    vote = IntegerField(default=0)
+
+    class Meta:
+        ordering = ["-created"]
+
+    def __unicode__(self):
+        return unicode("%s - %s(title)" % (self.title, self.forum))
+
