@@ -23,7 +23,7 @@ class UserProfile(models.Model):
 	role=models.IntegerField()#to differentiate b/w user and admin
 
 	def __unicode__(self):
-		return self.username
+		return self.user.username
 
 	def increment_posts(self):
         	self.posts += 1
