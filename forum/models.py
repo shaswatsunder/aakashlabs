@@ -36,7 +36,7 @@ class UserProfile(models.Model):
 
 class Category(models.Model):
 	category=models.CharField(max_length=20)
-	tags = TaggableManager()
+	description=models.TextField()
 
 	def __unicode__(self):
 		return self.category
@@ -50,6 +50,7 @@ class Post(models.Model):
 	#fk
 	category=models.ForeignKey('Category')
 	count=models.IntegerField(default=0)
+        tags = TaggableManager()
 	admin_id=models.IntegerField()#question will need admin's approval
 
 	class Meta:
