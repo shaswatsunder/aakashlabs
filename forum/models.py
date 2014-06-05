@@ -5,6 +5,7 @@ from django.contrib import admin
 from django.db.models.signals import post_save
 from taggit.managers import TaggableManager
 from shared.utils import *
+from durationfield.db.models.fields.duration import DurationField
 
 class UserProfile(models.Model):
 	tab_id=models.IntegerField(primary_key=True)
@@ -50,7 +51,7 @@ class Post(models.Model):
 	#fk
 	category=models.ForeignKey('Category')
 	count=models.IntegerField(default=0)
-        tags = TaggableManager()
+	tags = TaggableManager()
 	admin_id=models.IntegerField()#question will need admin's approval
 
 	class Meta:
@@ -64,10 +65,7 @@ class Post(models.Model):
 	def short(self):
         	created = self.created_date.strftime("%b %d, %I:%M %p")
         	return u"%s - %s\n%s" % (self.user, self.title, created_date)
-	def profile_data(self):
-        	p = self.created_date.profile
-        	return p.posts, p.avatar
-
+	
 
 class Reply(models.Model):
 	#fk
@@ -76,7 +74,7 @@ class Reply(models.Model):
         #creator = ForeignKey(User, blank=True, null=True)
 	user=models.ForeignKey(User)
 	post_date=models.DateTimeField(auto_now_add=True)
-	file_upload=models.FileField(upload_to='forum/file')
+	file_upload=models.FileField(upload_to='forum/file',blank=True)
 	ratings=models.IntegerField(max_length=5,default=0)# there should be a limit within which the rating should be done
 	admin_approved=models.BooleanField(default=False)
 	count=models.IntegerField(default=0)
@@ -85,7 +83,7 @@ class Reply(models.Model):
         	ordering = ["post_date"]
  
 	def __unicode__(self):
-		return self.title
+		return unicode(self.title)
 	def increment_count(self):
         	self.count += 1
         	self.save()
@@ -111,7 +109,7 @@ class Comment(models.Model):
         	ordering = ["-created_date"]
 
 	def __unicode__(self):
-		return self.count
+		return self.user.username
 
 
 
@@ -120,17 +118,17 @@ class Ticket(models.Model):
 	topic_id=models.ForeignKey(Category)
 	message=models.TextField()
 	ticket_id=models.IntegerField()
-	file_uploads=models.FileField(upload_to='tickets/file')
+	file_uploads=models.FileField(upload_to='tickets/file',blank=True)
 	created_date_time=models.DateTimeField(auto_now_add=True)
 	overdue_date_time=models.DateTimeField(auto_now_add=True)
 	closed_date_time=models.DateTimeField(auto_now_add=True)
-	status=models.IntegerField()
+	status=models.CharField(max_length=20)#open,closed,overdue
 	reopened_date_time=models.DateTimeField(auto_now_add=True)
-	topic_priority=models.IntegerField()
-	duration_for_reply=models.IntegerField()
+	topic_priority=models.CharField(max_length=20)#low,high
+	duration_for_reply=DurationField()
 
 	def __unicode__(self):
-		return self.user_id
+		return self.user_id.username
 
 
 class Tablet_info(models.Model):
@@ -138,9 +136,10 @@ class Tablet_info(models.Model):
 	rcName=models.CharField(max_length=100)
 	start_tab_id=models.IntegerField()
 	end_tab_id=models.IntegerField()
-	count=models.IntegerField()
+	count=models.IntegerField(default=0)
 	city=models.CharField(max_length=20)
+	state=models.CharField(max_length=20)
 
 	def __unicode__(self):
-		return self.start_tab_id,self.end_tab_id
+		return self.rcName
 
